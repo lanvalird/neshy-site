@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from 'next/server'
 import { z } from "zod";
 
 const credentialsScheme = z.object({
@@ -8,14 +8,17 @@ const credentialsScheme = z.object({
   password: z.string().min(6),
 });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const data = await req.json();
-    const validatedData = credentialsScheme.parse(data);
+    const formData = await req.formData();
+    const data = credentialsScheme.parse({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
 
     const supabase = await createClient();
 
-    const { error } = await supabase.auth.signUp(validatedData);
+    const { error } = await supabase.auth.signUp(data);
     if (error) throw new Error("Authorization failed");
 
     revalidatePath("/", "layout");
@@ -25,6 +28,6 @@ export async function POST(req: Request) {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return Response.json({ error: "Invalid data" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 }
