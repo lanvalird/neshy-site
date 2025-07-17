@@ -7,19 +7,13 @@ import Image from "next/image";
 
 export function LoginForm({
   className,
-  actions,
   ...props
-}: React.ComponentProps<"div"> & {
-  actions: {
-    login: (formData: FormData) => Promise<void>;
-    signup: (formData: FormData) => Promise<void>;
-  };
-}) {
+}: React.ComponentProps<"div">) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" method="post">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Поднять руки!</h1>
@@ -52,14 +46,14 @@ export function LoginForm({
 
               <div className="flex flex-col gap-3">
                 <Button
-                  formAction={actions["signup"]}
+                  formAction={"/api/auth/signup"}
                   variant="secondary"
                   className="w-full"
                 >
                   Зарегистрироваться
                 </Button>
                 <p className="text-center text-muted-foreground">или же</p>
-                <Button formAction={actions["login"]} className="w-full">
+                <Button formAction={"/api/auth/signin"} className="w-full">
                   Войти
                 </Button>
               </div>
