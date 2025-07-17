@@ -1,6 +1,7 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import { UserIcon } from "lucide-react";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 /**
  * Shared layout configurations
@@ -25,5 +26,13 @@ export const baseOptions: BaseLayoutProps = {
     ),
   },
   // see https://fumadocs.dev/docs/ui/navigation/links
-  links: [],
+  links: [
+    {
+      type: "icon",
+      label: "Войти в аккаунт", // `aria-label`
+      icon: <UserIcon />,
+      text: "Аккаунт",
+      url: "/login",
+    },
+  ],
 };
