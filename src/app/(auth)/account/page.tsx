@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { UserAvatar } from "@/components/user-avatar";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -10,7 +9,7 @@ export default async function Account() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    <UserAvatar />
+    return user.email
   }
 
   return redirect("/login");

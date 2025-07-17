@@ -57,10 +57,8 @@ export function LoginForm({
                   className="w-full"
                 >
                   Зарегистрироваться
-                  <p className="text-center text-muted-foreground">
-                    или же
-                  </p>
                 </Button>
+                <p className="text-center text-muted-foreground">или же</p>
                 <Button formAction={actions["login"]} className="w-full">
                   Войти
                 </Button>

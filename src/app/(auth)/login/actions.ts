@@ -39,7 +39,7 @@ export async function signup(formData: FormData) {
 
 function validateForm(data: { email: string; password: string }) {
   const CredentialsScheme = z.object({
-    email: z.string().min(3).max(36),
+    email: z.email().min(3).max(36),
     password: z.string().min(6),
   });
 
