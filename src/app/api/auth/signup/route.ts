@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { type NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const credentialsScheme = z.object({
@@ -22,9 +22,10 @@ export async function POST(req: NextRequest) {
     if (error) throw new Error("Authorization failed");
 
     revalidatePath("/", "layout");
-    return NextResponse.redirect(new URL("/login?email_verified=false", req.url), {
-      status: 302,
-    });
+    return NextResponse.redirect(
+      new URL("/login?email_verified=false", req.url),
+      { status: 302 }
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {

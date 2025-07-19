@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { type NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const credentialsScheme = z.object({
@@ -19,7 +19,17 @@ export async function POST(req: NextRequest) {
     const supabase = await createClient();
 
     const { error } = await supabase.auth.signInWithPassword(data);
-    if (error) throw new Error("Authorization failed");
+    if (error) {
+      if (error.code === "email_not_confirmed") {
+        revalidatePath("/", "layout");
+        return NextResponse.redirect(
+          new URL("/login?email_verified=false", req.url),
+          { status: 302 }
+        );
+      }
+
+      throw new Error("Authorization failed");
+    }
 
     revalidatePath("/", "layout");
     return NextResponse.redirect(new URL("/account", req.url), {

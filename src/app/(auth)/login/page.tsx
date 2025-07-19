@@ -1,5 +1,4 @@
 import { LoginForm } from "@/components/login-form";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
@@ -7,7 +6,7 @@ import { redirect } from "next/navigation";
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ email_verified: boolean | undefined }>;
+  searchParams: Promise<{ email_verified: string | boolean | undefined }>;
 }) {
   const supabase = await createClient();
 
@@ -16,10 +15,10 @@ export default async function LoginPage({
   } = await supabase.auth.getUser();
 
   const emailVerifiedParam = (await searchParams).email_verified;
-  const isEmailVerified =
-    emailVerifiedParam !== undefined && !!emailVerifiedParam === false;
+  const isShowEmailVerification =
+    emailVerifiedParam !== undefined && emailVerifiedParam === "false";
 
-  if (isEmailVerified) {
+  if (isShowEmailVerification) {
     return (
       <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
         <div className="w-full max-w-sm md:max-w-3xl">
@@ -32,19 +31,12 @@ export default async function LoginPage({
               >
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center">
-                    <h1 className="text-2xl font-bold">Закончите настройку.</h1>
+                    <h1 className="text-2xl font-bold">Окончите настройку</h1>
                     <p className="text-muted-foreground text-balance">
-                      Чтобы продолжить, вам надо подтвертить <br />
-                      адрес электронной почты <br />
-                      {user && user.email && (
-                        <span className="font-bold">{user.email}</span>
-                      )}
+                      Чтобы продолжить, вам надо подтвердить <br />
+                      адрес электронной почты
                     </p>
                   </div>
-
-                  <Button type="submit" className="w-full">
-                    Выйти
-                  </Button>
                 </div>
               </form>
             </CardContent>
