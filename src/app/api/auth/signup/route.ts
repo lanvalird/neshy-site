@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     if (error) throw new Error("Authorization failed");
 
     revalidatePath("/", "layout");
-    return NextResponse.redirect(new URL("/account", req.url), {
+    return NextResponse.redirect(new URL("/login?email_verified=false", req.url), {
       status: 302,
     });
 
