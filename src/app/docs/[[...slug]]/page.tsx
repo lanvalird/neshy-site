@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { getMDXComponents } from '@/mdx-components';
 
-export default async function DocsPage(props: {
+export default async function RootDocsPage(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
   const params = await props.params;

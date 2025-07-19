@@ -50,6 +50,8 @@ export default async function AccountPage() {
       );
     } else {
       async function saveUsername(username: string) {
+        "use server";
+
         if (!username) return;
 
         try {
