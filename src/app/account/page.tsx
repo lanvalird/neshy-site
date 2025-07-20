@@ -1,8 +1,6 @@
 "use server";
 
-import { AccountForm } from "@/components/account-form";
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 
 export default async function AccountPage() {
   const supabase = await createClient();
@@ -22,18 +20,8 @@ export default async function AccountPage() {
       return "error";
     }
 
-    if (!data.username) {
-      return (
-        <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
-          <div className="w-full max-w-sm md:max-w-3xl">
-            <AccountForm />
-          </div>
-        </div>
-      );
-    } else {
-      return data.username;
-    }
+    return data.username;
   }
 
-  return redirect("/login");
+  return "error";
 }
