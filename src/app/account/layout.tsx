@@ -38,7 +38,7 @@ export default async function Layout({
       return (
         <SidebarProvider>
           <AccountSidebar />
-          <main>
+          <main className="w-full">
             <SidebarTrigger />
             {children}
           </main>

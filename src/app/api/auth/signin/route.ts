@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
         revalidatePath("/", "layout");
         return NextResponse.redirect(
           new URL("/login?email_verified=false", req.url),
-          { status: 302 }
+          { status: 302 },
         );
       }
 

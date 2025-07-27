@@ -1,4 +1,4 @@
-import { Home, Settings } from "lucide-react"
+import { Home, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -9,7 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 // Menu items.
 const items = [
@@ -23,7 +23,7 @@ const items = [
     url: "/account/settings",
     icon: Settings,
   },
-]
+];
 
 export function AccountSidebar() {
   return (
@@ -48,5 +48,5 @@ export function AccountSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
