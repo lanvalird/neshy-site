@@ -54,7 +54,7 @@ interface PageMetadata {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug?: string[] };
+  params: Promise<{ slug?: string[] }>;
 }): Promise<PageMetadata> {
   const { slug } = await params;
   const page = source.getPage(slug);
