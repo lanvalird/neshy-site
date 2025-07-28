@@ -21,11 +21,17 @@ export default async function RootDocsPage(props: {
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+      <DocsDescription className="mb-0 text-lg text-fd-muted-foreground">
+        {page.data.description}
+      </DocsDescription>
+      {page.data.authors && (
+        <div className="mb-8 text-sm text-muted-foreground text-right">
+          ~ {page.data.authors.join(", ")}
+        </div>
+      )}
       <DocsBody>
         <MDXContent
           components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
           })}
         />
@@ -38,15 +44,31 @@ export async function generateStaticParams() {
   return source.generateParams();
 }
 
-export async function generateMetadata(props: {
-  params: Promise<{ slug?: string[] }>;
-}) {
-  const params = await props.params;
+interface MetadataProps {
+  params: { slug?: string[] };
+}
+
+interface PageMetadata {
+  title: string;
+  description?: string;
+  author?: string;
+  authors?: string[];
+}
+
+export async function generateMetadata({
+  params,
+}: MetadataProps): Promise<PageMetadata> {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const { title, description, authors } = page.data;
+
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title,
+    description,
+    ...(authors?.length && {
+      author: authors[0],
+      authors,
+    }),
   };
 }

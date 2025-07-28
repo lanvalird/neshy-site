@@ -1,23 +1,23 @@
-import {
-  defineConfig,
-  defineDocs,
-  frontmatterSchema,
-  metaSchema,
-} from "fumadocs-mdx/config";
+import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import { z } from "zod";
 
-// You can customise Zod schemas for frontmatter and `meta.json` here
-// see https://fumadocs.vercel.app/docs/mdx/collections#define-docs
+const frontmatterSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  authors: z.array(z.string()).optional(),
+  cover: z.string().optional(),
+  full: z.boolean().optional(),
+});
+
 export const docs = defineDocs({
   docs: {
     schema: frontmatterSchema,
   },
   meta: {
-    schema: metaSchema,
+    schema: z.object({}),
   },
 });
 
 export default defineConfig({
-  mdxOptions: {
-    // MDX options
-  },
+  mdxOptions: {},
 });
