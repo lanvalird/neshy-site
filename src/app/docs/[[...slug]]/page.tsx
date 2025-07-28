@@ -44,10 +44,6 @@ export async function generateStaticParams() {
   return source.generateParams();
 }
 
-interface MetadataProps {
-  params: { slug?: string[] };
-}
-
 interface PageMetadata {
   title: string;
   description?: string;
@@ -57,8 +53,12 @@ interface PageMetadata {
 
 export async function generateMetadata({
   params,
-}: MetadataProps): Promise<PageMetadata> {
-  const page = source.getPage(params.slug);
+}: {
+  params: { slug?: string[] };
+}): Promise<PageMetadata> {
+  const { slug } = await params;
+  const page = source.getPage(slug);
+
   if (!page) notFound();
 
   const { title, description, authors } = page.data;
